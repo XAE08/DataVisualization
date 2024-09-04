@@ -1,0 +1,11 @@
+WITH duplicate_cte AS
+(
+SELECT *,ROW_NUMBER() 
+OVER(
+PARTITION BY customer_id,customer_unique_id,customer_zip_code_prefix,customer_city,customer_state) 
+AS row_num
+FROM olist_customer_dataset_staging
+)
+SELECT * FROM duplicate_cte
+WHERE row_num>1;
+-- No duplicates

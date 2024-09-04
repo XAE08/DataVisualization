@@ -1,0 +1,6 @@
+CREATE TABLE olist_order_items_dataset_staging
+(
+	LIKE olist_order_items_dataset INCLUDING ALL
+);
+INSERT INTO olist_order_items_dataset_staging
+SELECT * FROM olist_order_items_dataset

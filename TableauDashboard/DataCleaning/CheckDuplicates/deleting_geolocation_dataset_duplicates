@@ -1,0 +1,33 @@
+-- Table: public.olist_geolocation_dataset_staging
+
+-- DROP TABLE IF EXISTS public.olist_geolocation_dataset_staging;
+
+CREATE TABLE IF NOT EXISTS public.olist_geolocation_dataset_staging2
+(
+    geolocation_zip_code_prefix bigint,
+    geolocation_lat double precision,
+    geolocation_lng double precision,
+    geolocation_city text COLLATE pg_catalog."default",
+    geolocation_state text COLLATE pg_catalog."default",
+	row_num int
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.olist_geolocation_dataset_staging2
+    OWNER to postgres;
+
+-- SELECT * FROM olist_geolocation_dataset_staging
+
+INSERT INTO olist_geolocation_dataset_staging2
+SELECT *,ROW_NUMBER() 
+OVER(
+PARTITION BY geolocation_zip_code_prefix,geolocation_lat,geolocation_lng,geolocation_state) 
+AS row_num
+FROM olist_geolocation_dataset_staging;
+
+DELETE FROM olist_geolocation_dataset_staging2
+WHERE row_num>1;
+
+SELECT * FROM olist_geolocation_dataset_staging2
+WHERE row_num=1;

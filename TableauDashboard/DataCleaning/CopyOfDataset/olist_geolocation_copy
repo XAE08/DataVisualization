@@ -1,0 +1,8 @@
+CREATE TABLE olist_geolocation_dataset_staging
+(
+	LIKE olist_geolocation_dataset INCLUDING ALL
+);
+INSERT INTO olist_geolocation_dataset_staging
+SELECT * FROM olist_geolocation_dataset
+
+

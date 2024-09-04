@@ -1,0 +1,9 @@
+CREATE TABLE product_category_name_translation_staging
+(
+	LIKE product_category_name_translation INCLUDING ALL
+);
+
+
+INSERT INTO product_category_name_translation_staging
+SELECT *
+FROM product_category_name_translation;

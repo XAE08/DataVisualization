@@ -1,0 +1,11 @@
+with duplicate_cte as(
+SELECT *,ROW_NUMBER() 
+OVER(
+PARTITION BY order_id,customer_id,order_status,order_purchase_timestamp,order_approved_at,order_delivered_carrier_date,
+order_delivered_customer_date,order_estimated_delivery_date)
+AS row_num
+FROM olist_orders_dataset_staging
+)
+
+SELECT * FROM duplicate_cte
+WHERE row_num>1;

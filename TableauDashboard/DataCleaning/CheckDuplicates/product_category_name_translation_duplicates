@@ -1,0 +1,9 @@
+with duplicate_cte as(
+select *,Row_number()
+Over(
+Partition by product_category_name,product_category_name_english)
+as row_num
+from product_category_name_translation_staging
+)
+select * from duplicate_cte
+where row_num>1

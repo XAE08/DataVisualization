@@ -1,0 +1,11 @@
+with duplicate_cte as(
+SELECT *,ROW_NUMBER() 
+OVER(
+PARTITION BY review_id,order_id,review_score,review_comment_title,review_comment_message,review_creation_date,
+review_answer_timestamp)
+AS row_num
+FROM olist_order_reviews_dataset_staging
+)
+
+SELECT * FROM duplicate_cte
+WHERE row_num>1;

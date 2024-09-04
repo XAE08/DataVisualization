@@ -1,0 +1,10 @@
+with duplicate_cte as(
+SELECT *,ROW_NUMBER() 
+OVER(
+PARTITION BY seller_id,seller_zip_code_prefix,seller_city,seller_state)
+AS row_num
+FROM olist_sellers_dataset_staging
+)
+
+SELECT * FROM duplicate_cte
+WHERE row_num>1;

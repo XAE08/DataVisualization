@@ -1,0 +1,9 @@
+WITH duplicate_cte AS(
+SELECT *,ROW_NUMBER()
+OVER(
+PARTITION BY order_id,payment_sequential,payment_type,payment_installments,payment_value)
+as row_num
+FROM olist_order_payments_dataset_staging
+)
+SELECT * FROM duplicate_cte
+WHERE row_num>1;
